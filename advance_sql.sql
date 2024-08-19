@@ -1456,7 +1456,7 @@ DELIMITER ;
 SELECT select_course(1);
 
 -- Loop
--- 2 types of loop in sql (,while)
+-- 2 types of loop in sql (basic loop,while loop)
 
 -- syntax
 /*
@@ -1466,6 +1466,9 @@ IF condition THEN
 END IF;
 END LOOP labelName;
 */
+
+--  basic loop :-Jab  value true hoyegi tab loop band
+-- Ex: jab 100 rs milega tab kaam band
 
 Delimiter $
 CREATE PROCEDURE loopExample()
@@ -1537,4 +1540,16 @@ DELIMITER ;
 
 CALL add_emp_id();
 SELECT * FROM emp1;
+
+--  while loop :-Jab tak value true hai tab tak chalega 
+-- Ex: jab tak 100 rs mil rhe hai kaam karo 
+/*
+labelName:WHILE
+CONDITION DO
+ //statement 
+END WHILE labelName;
+*/
+
+-- make 10 ka table using while loop 
+
 
