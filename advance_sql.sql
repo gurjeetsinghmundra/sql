@@ -1552,4 +1552,24 @@ END WHILE labelName;
 
 -- make 10 ka table using while loop 
 
+-- 20th August
+
+USE xyz_company;
+
+DELIMITER $
+CREATE PROCEDURE whileLoopExample()
+BEGIN
+		DECLARE i INT;
+        SET i=0;
+        whileLoopExample:While
+        i<=50 DO
+			SELECT i;
+            SET i=i+2;
+		END WHILE whileLoopExample;
+END$
+DELIMITER ;
+
+DROP PROCEDURE whileLoopExample;
+CALL whileLoopExample();
+
 
