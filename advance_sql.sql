@@ -1560,11 +1560,13 @@ DELIMITER $
 CREATE PROCEDURE whileLoopExample()
 BEGIN
 		DECLARE i INT;
-        SET i=0;
+        SET i=1;
         whileLoopExample:While
         i<=50 DO
+		IF i%2=0 THEN
 			SELECT i;
-            SET i=i+2;
+		END IF;
+            SET i=i+1;
 		END WHILE whileLoopExample;
 END$
 DELIMITER ;
@@ -1572,4 +1574,33 @@ DELIMITER ;
 DROP PROCEDURE whileLoopExample;
 CALL whileLoopExample();
 
+CREATE TABLE student1(s_id INT NOT NULL);
+ALTER TABLE student1 MODIFY s_id INT PRIMARY KEY;
+DESC student1;
 
+INSERT INTO student1 VALUES(null);
+INSERT INTO student1 VALUES(500);
+
+-- exceptionHandling means error ko handle karna
+-- exceptionHandling tab hoga jab error ayega
+
+DELIMITER $
+CREATE PROCEDURE exceptionHandling(IN s_id INT)
+BEGIN
+	DECLARE CONTINUE HANDLER FOR 1048
+    BEGIN
+		SELECT "You Cannot Insert Null Value";
+    END;
+    DECLARE CONTINUE HANDLER FOR 1062
+    BEGIN
+		SELECT "Duplicate Values Cannot Be Added";
+    END;
+	INSERT INTO student1 VALUES(s_id);
+    SELECT "Code After Insertion";
+END$
+DELIMITER ;
+
+CALL exceptionHandling(500);
+
+DROP PROCEDURE exceptionHandling;
+SELECT * FROM student1;
