@@ -1640,19 +1640,43 @@ CREATE PROCEDURE cursorExample()
 BEGIN
 	DECLARE s_id INT;
 	DECLARE s_name VARCHAR (100);
+    DECLARE n INT;
     
     DECLARE student_cursor CURSOR FOR
     SELECT studentID,Name FROM students;
     
+    DECLARE CONTINUE HANDLER FOR 1329
+    BEGIN
+		SET n=1;
+    END;
+    
     OPEN student_cursor;
     
+    cursorLoop:LOOP
+     FETCH student_cursor INTO s_id,s_name;
+    IF n=1 THEN
+		
+		LEAVE cursorLoop;
+	END IF;
+		
+        SELECT s_id,s_name;
+	END LOOP cursorLoop;
+    /*
     FETCH student_cursor INTO s_id,s_name;
+	FETCH student_cursor INTO s_id,s_name;
     SELECT s_id,s_name;
-    
+	*/
+	SELECT "Hello";
+--  cursor ko close nhi kiya toh memory me POINTER rahega   
     CLOSE student_cursor;
     
 END$
 DELIMITER ;
 
 CALL cursorExample();
+
 DROP PROCEDURE cursorExample;
+
+
+SELECT * FROM courses;
+
