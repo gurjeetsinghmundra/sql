@@ -1604,3 +1604,55 @@ CALL exceptionHandling(500);
 
 DROP PROCEDURE exceptionHandling;
 SELECT * FROM student1;
+
+
+-- 21st August
+
+-- Cursor
+-- implicit cursor
+-- explicit cursor
+
+-- Cursor trigger loop are pl/sql
+
+-- Steps for Cursor
+/*
+1)Declare Cursor
+	DECLARE cursor_name CURSOR FOR select query;
+    DECLARE s CURSOR FOR SELECT id FROM students;
+2)Open Cursor
+	OPEN cursor_name;
+    OPEN s;
+3)Fetch Cursor
+	FETCH cursor_name INTO variable_list;
+    FETCH s INTO student_id;
+4)Close Cursor
+	CLOSE cursor_name;
+    CLOSE s;
+*/
+
+-- Cursor will show error at the end to avoid that we use exception handling
+
+USE java_student_management;
+SELECT studentID,Name FROM students;
+
+DELIMITER $
+CREATE PROCEDURE cursorExample()
+BEGIN
+	DECLARE s_id INT;
+	DECLARE s_name VARCHAR (100);
+    
+    DECLARE student_cursor CURSOR FOR
+    SELECT studentID,Name FROM students;
+    
+    OPEN student_cursor;
+    
+    FETCH student_cursor INTO s_id,s_name;
+    SELECT s_id,s_name;
+    
+    CLOSE student_cursor;
+    
+END$
+DELIMITER ;
+
+CALL cursorExample();
+DROP PROCEDURE cursorExample;
