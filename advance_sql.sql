@@ -1715,7 +1715,8 @@ BEGIN
     
     teacher_courses_loop:LOOP
      FETCH teacher_courses INTO cname,tname;
-     IF n=1 THEN LEAVE teacher_courses_loop;
+     IF n=1 THEN 
+		LEAVE teacher_courses_loop;
      END IF;
      INSERT INTO java_student_management.teacher_courses VALUES(cname,tname);
      END LOOP teacher_courses_loop;
@@ -1732,5 +1733,16 @@ DROP PROCEDURE insert_values_with_cursor;
 SELECT * FROM teacher_courses;
 TRUNCATE teacher_courses;
  
+ -- Cursor ke time humlog keys like primary key,foreign key laga sakte hai
+ -- But we cant do that directly as shown below 
  
+ CREATE TABLE courses_copy AS SELECT * FROM courses;
+ DESC courses_copy;
+ SELECT * FROM courses;
+ SELECT * FROM courses_copy;
+ 
+ -- AS you can see above keys are not applied when we create table directly
+ -- But with cursor you can apply keys
+
+
 
