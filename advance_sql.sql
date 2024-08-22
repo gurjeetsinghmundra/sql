@@ -1731,5 +1731,6 @@ DROP PROCEDURE insert_values_with_cursor;
 
 SELECT * FROM teacher_courses;
 TRUNCATE teacher_courses;
-
+ 
+ 
 
