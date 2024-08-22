@@ -877,6 +877,8 @@ INNER JOIN department1
 ON
 employee1.d_id=department1.d_id;
 
+-- Instead of ON , USING can also be used
+
 -- Shortcuts
 SELECT e.ename,d.d_id,d.department FROM employee1 e
 INNER JOIN department1 AS d
@@ -1677,6 +1679,57 @@ CALL cursorExample();
 
 DROP PROCEDURE cursorExample;
 
-
 SELECT * FROM courses;
+
+-- 22nd August
+-- Insert values with cursor in another table
+
+use java_student_management;
+
+SELECT c.CourseName,t.Name FROM courses c
+JOIN Teachers t
+USING (TeacherID);
+
+CREATE TABLE teacher_courses (cname VARCHAR(100),tname VARCHAR(100));
+SELECT * FROM teacher_courses;
+
+DELIMITER $
+CREATE PROCEDURE insert_values_with_cursor()
+BEGIN
+	DECLARE cname VARCHAR(100);
+    DECLARE tname VARCHAR(100);
+    DECLARE n INT;
+    
+    -- Cursor Name
+    DECLARE teacher_courses CURSOR FOR
+    SELECT c.CourseName,t.Name FROM courses c
+	JOIN Teachers t
+	USING (TeacherID);
+    
+    DECLARE CONTINUE HANDLER FOR 1329
+    BEGIN
+		SET n=1;
+	END;
+    
+    OPEN teacher_courses;
+    
+    teacher_courses_loop:LOOP
+     FETCH teacher_courses INTO cname,tname;
+     IF n=1 THEN LEAVE teacher_courses_loop;
+     END IF;
+     INSERT INTO java_student_management.teacher_courses VALUES(cname,tname);
+     END LOOP teacher_courses_loop;
+    
+    CLOSE teacher_courses;
+    
+END$
+DELIMITER ;
+
+CALL insert_values_with_cursor();
+DROP PROCEDURE insert_values_with_cursor;
+
+
+SELECT * FROM teacher_courses;
+TRUNCATE teacher_courses;
+
 
