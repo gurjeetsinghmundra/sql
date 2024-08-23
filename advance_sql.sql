@@ -1810,5 +1810,56 @@ DELIMITER ;
 UPDATE emp set pay_per_hour=1200  WHERE name="Munni";
 SELECT * FROM emp;
 
+-- (OLD) (PREVIOUS) UPDATE TRIGGER
+
 ALTER TABLE emp ADD COLUMN previous_pay INT;
 
+DELIMITER $
+CREATE TRIGGER before_update_emp_pay_per_hour
+BEFORE UPDATE
+ON emp FOR EACH ROW
+BEGIN
+	SET NEW.previous_pay=OLD.pay_per_hour;
+END$
+DELIMITER ;
+
+-- same values should not apply (homework)
+
+SELECT * FROM emp;
+UPDATE emp set pay_per_hour=600  WHERE name="Munni";
+
+-- 
+
+ALTER TABLE emp ADD COLUMN d_id CHAR(4);
+
+CREATE TABLE department(
+d_id CHAR(4),
+d_name VARCHAR(100)
+);
+
+INSERT INTO department VALUES("D1","IT"),
+("D2","Marketing");
+SELECT * FROM department;
+
+DESC department;
+
+UPDATE emp SET d_id="D1" WHERE name="Munni";
+SELECT * FROM emp;
+
+DESC emp;
+INSERT INTO emp (name,working_hours,pay_per_hour,d_id) VALUES("Riya",6,1000,"D2");
+
+-- DELETE TRIGGER
+
+DELIMITER $
+CREATE TRIGGER delete_department
+BEFORE DELETE
+ON department FOR EACH ROW
+BEGIN
+	UPDATE emp SET d_id=NULL WHERE d_id=OLD.d_id;
+END$
+DELIMITER ;
+
+DELETE FROM department WHERE d_id="D2";
+SELECT * FROM department;
+SELECT * FROM emp;
