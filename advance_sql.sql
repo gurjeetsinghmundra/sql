@@ -1739,10 +1739,76 @@ TRUNCATE teacher_courses;
  CREATE TABLE courses_copy AS SELECT * FROM courses;
  DESC courses_copy;
  SELECT * FROM courses;
- SELECT * FROM courses_copy;
+ SELECT 
+    *
+FROM
+    courses_copy;
  
  -- AS you can see above keys are not applied when we create table directly
  -- But with cursor you can apply keys
 
 
+-- 23rd August
+-- Trigger (it is automatic)
+
+/*
+INSERT NEW
+UPDATE OLD NEW
+DELETE OLD
+*/
+
+/*
+CREATE TRIGGER trigger_name
+(BEFORE|AFTER) (INSERT | UPDATE | DELETE)
+ON table_name FOR EACH ROW
+BEGIN
+
+END
+*/ 
+
+USE java_student_management;
+CREATE TABLE emp(
+name VARCHAR(100),
+working_hours INT,
+pay_per_hour INT,
+salary INT
+);
+
+DESC emp;
+
+INSERT INTO emp (name,working_hours,pay_per_hour)
+VALUES ("Nisha",12,500);
+
+-- Insert Trigger
+
+DELIMITER $
+CREATE TRIGGER before_insert_emp
+BEFORE INSERT
+ON emp FOR EACH ROW
+BEGIN
+	SET NEW.salary=NEW.working_hours*NEW.pay_per_hour;
+END$
+DELIMITER ;
+
+SELECT * FROM emp;
+INSERT INTO emp (name,working_hours,pay_per_hour)
+VALUES ("Munni",5,600);
+
+-- (NEW) Update Trigger
+
+UPDATE emp set working_hours=10 WHERE name="Munni";
+
+DELIMITER $
+CREATE TRIGGER before_update_emp
+BEFORE UPDATE
+ON emp FOR EACH ROW
+BEGIN
+	SET NEW.salary=NEW.working_hours*NEW.pay_per_hour;
+END$
+DELIMITER ;
+
+UPDATE emp set pay_per_hour=1200  WHERE name="Munni";
+SELECT * FROM emp;
+
+ALTER TABLE emp ADD COLUMN previous_pay INT;
 
