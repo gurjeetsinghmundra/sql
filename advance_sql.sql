@@ -1863,3 +1863,27 @@ DELIMITER ;
 DELETE FROM department WHERE d_id="D2";
 SELECT * FROM department;
 SELECT * FROM emp;
+
+-- 26th August
+
+USE java_student_management;
+
+-- CREATE INDEX index_name ON table_name(col-name,col-name);
+-- If a table have keys then index already exists
+-- Without index searching will take more time
+-- Index gives data fast
+
+SHOW INDEXES FROM students;
+
+CREATE INDEX  name_index ON students(Name);
+
+SHOW INDEXES FROM courses;
+DESC courses;
+
+CREATE INDEX course_name_index ON courses(CourseName);
+
+-- Drop Index
+-- ALTER TABLE table-name DROP INDEX index-name;
+
+ALTER TABLE courses DROP INDEX course_name_index;
+
