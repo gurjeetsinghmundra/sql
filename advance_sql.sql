@@ -1118,6 +1118,7 @@ CREATE PROCEDURE procedure_name()
 BEGIN
 
 
+
 END$
 DELIMITER ;
 */
@@ -1886,4 +1887,78 @@ CREATE INDEX course_name_index ON courses(CourseName);
 -- ALTER TABLE table-name DROP INDEX index-name;
 
 ALTER TABLE courses DROP INDEX course_name_index;
+
+-- Normalization (table shouldn't contain commas ,)
+
+-- 1NF
+/*
+table is not in 1NF
+id    name		phoneno
+101   Nisha		1223,1234
+102	  Ankita 	51552,52535
+*/
+
+/*
+Now table is  in 1NF
+id    name		phoneno
+101   Nisha		1223
+101   Nisha		1234
+102	  Ankita 	51552
+102	  Ankita 	52535
+*/
+
+-- 2NF (Foreign Key)
+-- 2nf rule is that the table should in 1nf form first
+
+/*
+IT is not in 2NF
+id		name		phoneno		Hobbies		courses
+101		Nisha		5325255		dancing		wd
+101		Nisha		2523532		drawing		sql
+102		Ankita		2355235		singing		wd
+102		Ankita		7457457		reading		java
+*/
+
+/*
+IT is  in 2NF
+Student
+id		name		phoneno	 		
+101		Nisha		5325255		C1		
+101		Nisha		2523532		C2	
+102		Ankita		2355235		C1	
+102		Ankita		7457457		C3	
+
+courses
+c_id	c_name
+c1		wd
+c2		sql
+c3		java
+*/
+
+-- 3NF
+/*
+emp
+id		name	pincode		
+101
+*/
+
+-- 4NF (many to many relation)
+
+-- practice
+-- In procedure you forget(@,into ,select @)
+DELIMITER $
+CREATE PROCEDURE show_tables(IN StudentId INT,OUT reg_name VARCHAR(100))
+BEGIN
+	SELECT Name INTO reg_name FROM students  WHERE students.StudentId=StudentID;
+END$
+DELIMITER ;
+
+DROP PROCEDURE show_tables;
+CALL show_tables(2,@reg_name);
+SELECT @reg_name;
+
+DESC students;
+SELECT * FROM students;
+
+
 
