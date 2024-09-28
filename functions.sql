@@ -11,7 +11,8 @@ INSERT INTO employee_grade (first_name, salary)
 VALUES 
 ('Rahul', 56000 ),
 ('Pravin', 25000 ),
-('Naresh', 8000);
+('Naresh', 8000)
+('Amit',50000;
 
 DROP TABLE employee_grade;
 
