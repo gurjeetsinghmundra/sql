@@ -1,4 +1,5 @@
 Create Database trial;
+Drop trial;
+Show Databases;
 Use trial;
-Create Database guru;
-Use guru
+Show Tables;
